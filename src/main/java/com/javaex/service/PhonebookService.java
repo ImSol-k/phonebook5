@@ -1,8 +1,9 @@
 package com.javaex.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +16,7 @@ public class PhonebookService {
 	@Autowired
 	private PhonebookDao phonebookDao;
 
-
+	//리스트
 	public List<PersonVo> exeList() {
 
 		System.out.println("PhoneDao.exeList()");
@@ -24,13 +25,28 @@ public class PhonebookService {
 		return personList;
 	}
 
+	//추가
 	public int exeWrite(PersonVo personVo) {
 		System.out.println("PhonebookService.exeWrite()");
 
 		int count = phonebookDao.personInsert(personVo);
 		return count;
 	}
+	public int exeWrite2(String name, String hp, String company) {
+		System.out.println("PhonebookService.exeWrite2()");
+		
+		System.out.println(name + hp + company);
+		Map<String, String> personMap = new HashMap<String, String>();
+		personMap.put("name", name);
+		personMap.put("hp", hp);
+		personMap.put("company", company);
+		
+		phonebookDao.personInsert2(personMap);
+		
+		return 0;
+	}
 
+	//수정
 	public PersonVo exeModifyForm(int no) {
 		System.out.println("PhonebookService.exeModifyForm()");
 
@@ -38,7 +54,13 @@ public class PhonebookService {
 
 		return personVo;
 	}
-
+	public Map<String, Object> exeModifyForm2(int no) {
+		System.out.println("PhonebookService.exeModifyForm2()");
+		
+		Map<String, Object> pMap = phonebookDao.personSelectOne2(no);
+		
+		return pMap;
+	}
 	public int exeModify(PersonVo personVo) {
 		System.out.println("PhonebookService.exeModify()");
 
@@ -47,6 +69,7 @@ public class PhonebookService {
 		return count;
 	}
 
+	//삭제
 	public int exeDelete(int no) {
 		System.out.println("PhonebookService.exeDelete");
 
